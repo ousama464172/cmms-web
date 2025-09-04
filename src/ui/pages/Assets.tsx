@@ -9,19 +9,33 @@ export default function Assets(){
   const [name, setName] = useState('')
   const [status, setStatus] = useState<'Running'|'Down'|'Standby'>('Running')
   const [location, setLocation] = useState('')
+  const [busy, setBusy] = useState(false)
 
   async function load(){
-    const snap = await getDocs(query(collection(db,'assets'), orderBy('created_date','desc'), limit(200)))
-    setRows(snap.docs.map(d => ({ id:d.id, ...(d.data() as any) })))
+    try{
+      const snap = await getDocs(query(collection(db,'assets'), orderBy('created_date','desc'), limit(200)))
+      setRows(snap.docs.map(d => ({ id:d.id, ...(d.data() as any) })))
+    }catch(e:any){
+      console.error('Load assets failed:', e)
+      alert('Failed to load assets: ' + (e?.message || e))
+    }
   }
   useEffect(()=>{ load() },[])
 
   async function createAsset(e:React.FormEvent){
     e.preventDefault()
-    if(!name.trim()) return
-    await addDoc(collection(db,'assets'), { name, status, location, created_date: serverTimestamp() })
-    setName(''); setStatus('Running'); setLocation('')
-    await load()
+    try{
+      if(!name.trim()) return
+      setBusy(true)
+      await addDoc(collection(db,'assets'), { name, status, location, created_date: serverTimestamp() })
+      setName(''); setStatus('Running'); setLocation('')
+      await load()
+    }catch(err:any){
+      console.error('Add asset failed:', err)
+      alert(err?.message || 'Failed to add asset')
+    }finally{
+      setBusy(false)
+    }
   }
 
   return (
@@ -35,7 +49,7 @@ export default function Assets(){
           <option>Running</option><option>Down</option><option>Standby</option>
         </select>
         <input placeholder="Location" value={location} onChange={e=>setLocation(e.target.value)} />
-        <button className="btn" type="submit">Add Asset</button>
+        <button className="btn" type="submit" disabled={busy}>Add Asset</button>
       </form>
 
       <table className="table">
