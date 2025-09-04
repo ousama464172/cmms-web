@@ -7,12 +7,13 @@ import PM from './pages/PM'
 import Inventory from './pages/Inventory'
 import Safety from './pages/Safety'
 import GMP from './pages/GMP'
+import Debug from './Debug'
 
-type Tab = 'Dashboard'|'Assets'|'Work Orders'|'PM'|'Inventory'|'Safety'|'GMP'
+type Tab = 'Dashboard'|'Assets'|'Work Orders'|'PM'|'Inventory'|'Safety'|'GMP'|'Debug'
 
 export default function App(){
-  const [tab, setTab] = useState<Tab>('Dashboard')
-  const tabs: Tab[] = ['Dashboard','Assets','Work Orders','PM','Inventory','Safety','GMP']
+  const [tab, setTab] = useState<Tab>('Assets')
+  const tabs: Tab[] = ['Dashboard','Assets','Work Orders','PM','Inventory','Safety','GMP','Debug']
   return (
     <div className="wrap">
       <nav>
@@ -31,6 +32,7 @@ export default function App(){
         {tab==='Inventory' && <Inventory/>}
         {tab==='Safety' && <Safety/>}
         {tab==='GMP' && <GMP/>}
+        {tab==='Debug' && <Debug/>}
       </main>
       <footer className="muted">© {new Date().getFullYear()} CMMS</footer>
     </div>
