@@ -1,35 +1,8 @@
-import { useState } from 'react'
-import './styles.css'
-import Dashboard from './pages/Dashboard'
-import Assets from './pages/Assets'
-import WorkOrders from './pages/WorkOrders'
-import PM from './pages/PM'
-import Inventory from './pages/Inventory'
-import Safety from './pages/Safety'
-import GMP from './pages/GMP'
-
-type Tab = 'Dashboard'|'Assets'|'Work Orders'|'PM'|'Inventory'|'Safety'|'GMP'
-
 export default function App(){
-  const [tab, setTab] = useState<Tab>('Dashboard')
   return (
-    <div className="wrap">
-      <nav>
-        <span className="brand">CMMS</span>
-        {(['Dashboard','Assets','Work Orders','PM','Inventory','Safety','GMP'] as Tab[]).map(t => (
-          <a key={t} href="#" onClick={(e)=>{e.preventDefault(); setTab(t)}} className={tab===t ? 'active' : ''}>{t}</a>
-        ))}
-      </nav>
-      <main className="card">
-        {tab==='Dashboard' && <Dashboard/>}
-        {tab==='Assets' && <Assets/>}
-        {tab==='Work Orders' && <WorkOrders/>}
-        {tab==='PM' && <PM/>}
-        {tab==='Inventory' && <Inventory/>}
-        {tab==='Safety' && <Safety/>}
-        {tab==='GMP' && <GMP/>}
-      </main>
-      <footer className="muted">© {new Date().getFullYear()} CMMS</footer>
+    <div style={{padding:20, fontFamily:'system-ui'}}>
+      <h1>CMMS</h1>
+      <p>Build is working. Next we’ll add the real pages.</p>
     </div>
   )
 }
