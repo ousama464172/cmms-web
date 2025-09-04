@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import AuthWidget from './Auth'
 import Dashboard from './pages/Dashboard'
 import Assets from './pages/Assets'
 import WorkOrders from './pages/WorkOrders'
@@ -20,6 +21,7 @@ export default function App(){
           <a key={t} href="#" onClick={(e)=>{e.preventDefault(); setTab(t)}}
              className={tab===t ? 'active' : ''}>{t}</a>
         ))}
+        <span style={{marginLeft:'auto'}}><AuthWidget/></span>
       </nav>
       <main className="card">
         {tab==='Dashboard' && <Dashboard/>}
